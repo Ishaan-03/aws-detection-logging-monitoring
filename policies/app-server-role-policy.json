@@ -1,0 +1,18 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "WriteOwnLogGroupOnly",
+      "Effect": "Allow",
+      "Action": [
+        "logs:CreateLogGroup",
+        "logs:CreateLogStream",
+        "logs:PutLogEvents"
+      ],
+      "Resource": [
+        "arn:aws:logs:eu-north-1:843109108746:log-group:/blackpine/app-server",
+        "arn:aws:logs:eu-north-1:843109108746:log-group:/blackpine/app-server:*"
+      ]
+    }
+  ]
+}

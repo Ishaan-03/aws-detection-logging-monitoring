@@ -1,0 +1,82 @@
+{
+  "Version": "2012-10-17",
+  "Statement": [
+    {
+      "Sid": "AWSCloudTrailAclCheck",
+      "Effect": "Allow",
+      "Principal": { "Service": "cloudtrail.amazonaws.com" },
+      "Action": "s3:GetBucketAcl",
+      "Resource": "arn:aws:s3:::aws-cloudtrail-logs-843109108746-c279e358",
+      "Condition": {
+        "StringEquals": { "AWS:SourceArn": "arn:aws:cloudtrail:eu-north-1:843109108746:trail/blackpine-main-trail" }
+      }
+    },
+    {
+      "Sid": "AWSCloudTrailWrite",
+      "Effect": "Allow",
+      "Principal": { "Service": "cloudtrail.amazonaws.com" },
+      "Action": "s3:PutObject",
+      "Resource": "arn:aws:s3:::aws-cloudtrail-logs-843109108746-c279e358/AWSLogs/843109108746/*",
+      "Condition": {
+        "StringEquals": {
+          "s3:x-amz-acl": "bucket-owner-full-control",
+          "AWS:SourceArn": "arn:aws:cloudtrail:eu-north-1:843109108746:trail/blackpine-main-trail"
+        }
+      }
+    },
+    {
+      "Sid": "AWSLogDeliveryAclCheckFlowLogs",
+      "Effect": "Allow",
+      "Principal": { "Service": "delivery.logs.amazonaws.com" },
+      "Action": "s3:GetBucketAcl",
+      "Resource": "arn:aws:s3:::aws-cloudtrail-logs-843109108746-c279e358",
+      "Condition": {
+        "StringEquals": { "aws:SourceAccount": "843109108746" },
+        "ArnLike": { "aws:SourceArn": "arn:aws:logs:eu-north-1:843109108746:*" }
+      }
+    },
+    {
+      "Sid": "AWSLogDeliveryWriteFlowLogs",
+      "Effect": "Allow",
+      "Principal": { "Service": "delivery.logs.amazonaws.com" },
+      "Action": "s3:PutObject",
+      "Resource": "arn:aws:s3:::aws-cloudtrail-logs-843109108746-c279e358/AWSLogs/843109108746/*",
+      "Condition": {
+        "StringEquals": {
+          "s3:x-amz-acl": "bucket-owner-full-control",
+          "aws:SourceAccount": "843109108746"
+        },
+        "ArnLike": { "aws:SourceArn": "arn:aws:logs:eu-north-1:843109108746:*" }
+      }
+    },
+    {
+      "Sid": "AWSConfigBucketPermissionsCheck",
+      "Effect": "Allow",
+      "Principal": { "Service": "config.amazonaws.com" },
+      "Action": "s3:GetBucketAcl",
+      "Resource": "arn:aws:s3:::aws-cloudtrail-logs-843109108746-c279e358",
+      "Condition": { "StringEquals": { "AWS:SourceAccount": "843109108746" } }
+    },
+    {
+      "Sid": "AWSConfigBucketExistenceCheck",
+      "Effect": "Allow",
+      "Principal": { "Service": "config.amazonaws.com" },
+      "Action": "s3:ListBucket",
+      "Resource": "arn:aws:s3:::aws-cloudtrail-logs-843109108746-c279e358",
+      "Condition": { "StringEquals": { "AWS:SourceAccount": "843109108746" } }
+    },
+    {
+      "Sid": "AWSConfigBucketDelivery",
+      "Effect": "Allow",
+      "Principal": { "Service": "config.amazonaws.com" },
+      "Action": "s3:PutObject",
+      "Resource": "arn:aws:s3:::aws-cloudtrail-logs-843109108746-c279e358/AWSLogs/843109108746/Config/*",
+      "Condition": {
+        "StringEquals": {
+          "s3:x-amz-acl": "bucket-owner-full-control",
+          "AWS:SourceAccount": "843109108746"
+        }
+      }
+    }
+  ]
+}
